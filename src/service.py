@@ -1,4 +1,4 @@
-from re import M
+from re import M, T
 from src.utils import myLogger
 from .entity import Entity
 from pandas import DataFrame, Series
@@ -9,11 +9,7 @@ class Service(Entity):
     def __init__(self) -> None:
         super().__init__()
 
-    def __save__(self):
-        #self.pd.to_csv
-        "Save current progress"
-
-    def __see__(self, data: DataFrame | Series, nrows: int=5):
+    def __see__(self, data: DataFrame | Series, nrows: int = 5):
         print(data.head(nrows))
 
     def __dropNFirstRows__(self, n: int):
@@ -22,6 +18,8 @@ class Service(Entity):
     def main(self):
         self.__see__(self.comments)
 
-        self.__dropNFirstRows__(n=1)
+        
+        # logic here
+
 
         self.__see__(self.comments)
