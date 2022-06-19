@@ -16,31 +16,25 @@ class Entity:
 
         # self.comments: pd.DataFrame = pd.read_pickle(f"{basePath}/{self.commentsFile}")
 
-        self.apps = pd.read_sql(
-            "SELECT * FROM 'Apps.sqlite'",
-            con=connect(f"{basePath}/{self.appsFile}"),
-            columns=[
-                "title",
-                "genre",
-                "appId",
-                "minInstalls",
-                "ratings",
-                "published_days",
-                "daily_installs",
-                "daily_ratings",
-                "installs_ratings_ratio",
-                "summary",
-                "developerId",
-                "description",
-            ],
-        )
+        # self.apps = pd.read_sql(
+        #     "SELECT * FROM 'Apps.sqlite'",
+        #     con=connect(f"{basePath}/{self.appsFile}"),
+        #     columns=[
+        #         "title",
+        #         "genre",
+        #     ],
+        # )
 
         # self.apps = pd.read_parquet('./files/parquetExs.gzip')
 
         # self.apps: pd.DataFrame = pd.read_pickle(f"{basePath}/{'Apps.pkl'}")
 
         # self.apps: pd.DataFrame = pd.read_parquet(f"{basePath}/{'Apps.gzip'}")
-        # self.apps: pd.DataFrame = pd.read_feather(f"{basePath}/{'Apps'}")
+
+        self.apps: pd.DataFrame = pd.read_feather(
+            f"{basePath}/{'Apps'}",
+            columns=["title", "genre", "summary", "daily_installs", "published_days", "minInstalls", "installs_ratings_ratio"],
+        )
 
         # self.btc: pd.DataFrame = pd.read_csv(f"{basePath}/{self.bitcoinFile}")
         # self.hapiness: pd.DataFrame = pd.read_csv(f"{basePath}/{self.hapinessFile}",index_col=1)
@@ -51,6 +45,9 @@ class Entity:
 
     def getDF(self, name: _DFname) -> pd.DataFrame:
         return getattr(self, name)
+
+    def syncDF(self, name: _DFname, data: pd.DataFrame):
+        setattr(self, name, data)
 
     def saveCurrentDF(self, name: _DFname, to: _FormatSaveFlie, fileName: str):
         myLogger(level="info", msg="saving file...")
