@@ -1,4 +1,3 @@
-import logging
 from src.main import bootstrap
 from src.utils import myLogger
 
